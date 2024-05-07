@@ -1,0 +1,55 @@
+3. ¿El siguiente código tiene un problema?, si es así, ¿como se puede solucionar?
+
+
+const [_nombre, setNombre] = useState(null);
+const [_rut, setRut] = useState(null);
+const [saveForm, setSaveform] = useState(true);
+
+useEffect(async() =>{
+  await save(
+      {
+        nombre: _nombre,
+        rut: _rut,
+      }
+    );
+ }, [saveForm])
+
+
+Sí tiene un problema, se esta haciendo un llamado asincrono dentro del useEffect y esto no se puede hacer, de 
+la forma que esta devuelve una promesa y useEffect no puede manejar promesas directamente.
+
+Para solucionarlo se puede hacer una funcion sincrona que dentro haga el llamado asincrono y despues se invoque
+
+useEffect(() => {
+  const fetchData = async () => {
+    await save({
+      nombre: _nombre,
+      rut: _rut
+    });
+  };
+
+  fetchData();
+}, [saveForm]);
+
+
+
+
+¿Que realiza el siguiente código? (esto esta escrito en C#.NET dentro de un Webform
+
+ protected void Page_Load(object sender, EventArgs e)
+ {
+    int idOperacion = Convert.ToInt32(Request.QueryString["idOperacion"]);
+    if (!Page.IsPostBack)
+    {
+        if (idOperacion == 0)
+        {
+            Response.Redirect("MisRevisiones.aspx");
+        }
+        obtenerDetalleMisSolicitudes(idOperacion);
+    }
+ }
+
+Es una funcion que se ejecuta al cargar una pagina, captura el parametro idOperacion de la url, si la pagina 
+cargo por primera vez comprueba si el id es 0 y en ese caso lo redirecciona a una pagina llamada 
+"MisRevisiones.aspx", si el idOperacion es distinto de 0 se ejecuta la funcion 
+"obtenerDetalleMisSolicitudes(idOperacion);" pasandole idOperacion como argumento. 
